@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <defs>
+    <linearGradient id="vr-bg" x1="4" y1="4" x2="56" y2="56" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#8b5cf6" />
+      <stop offset="0.52" stop-color="#7c3aed" />
+      <stop offset="1" stop-color="#5b21b6" />
+    </linearGradient>
+    <linearGradient id="vr-sheen" x1="0" y1="3" x2="0" y2="30" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#ffffff" stop-opacity="0.28" />
+      <stop offset="1" stop-color="#ffffff" stop-opacity="0" />
+    </linearGradient>
+    <clipPath id="vr-clip">
+      <rect x="3" y="3" width="54" height="54" rx="16" />
+    </clipPath>
+  </defs>
+  <!-- signature hard offset shadow -->
+  <rect x="6.5" y="6.5" width="54" height="54" rx="16" fill="#c4b5fd" />
+  <!-- squircle tile -->
+  <rect x="3" y="3" width="54" height="54" rx="16" fill="url(#vr-bg)" />
+  <!-- soft top sheen -->
+  <rect x="3" y="3" width="54" height="27" fill="url(#vr-sheen)" clip-path="url(#vr-clip)" />
+  <!-- crafted V -->
+  <path
+    d="M18.77 20.78 30 40.66 41.23 20.78"
+    fill="none"
+    stroke="#ffffff"
+    stroke-width="4.6"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+  />
+</svg>
