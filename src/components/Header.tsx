@@ -72,12 +72,6 @@ export const Header: React.FC<HeaderProps> = ({
             >
               {COPY.header.navPromo}
             </button>
-            <button
-              onClick={() => navigate('/cek-pesanan')}
-              className="px-3 py-1.5 rounded-lg hover:text-[#6d28d9] hover:bg-gray-100/70 transition-colors cursor-pointer"
-            >
-              {COPY.header.navCekPesanan}
-            </button>
           </nav>
 
           <div className="h-5 w-px bg-gray-200 hidden lg:block"></div>
