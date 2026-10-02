@@ -1,8 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { useRouter } from '../context/RouterContext';
+import { useCatalog } from '../context/CatalogContext';
+import { buildWaLink } from '../services/catalogService';
 
 export const HelpCenterPage: React.FC = () => {
   const { navigate } = useRouter();
+  const { settings } = useCatalog();
   const [openIndex, setOpenIndex] = useState<number | null>(0);
   const [searchQuery, setSearchQuery] = useState('');
 
@@ -147,7 +150,10 @@ export const HelpCenterPage: React.FC = () => {
           </div>
 
           <a
-            href="https://wa.me/6281234567890?text=Halo%20CS%20Virello%2C%20saya%20membutuhkan%20bantuan%20terkait%20pesanan."
+            href={buildWaLink(
+              settings,
+              'Halo CS Virello, saya membutuhkan bantuan terkait pesanan.'
+            )}
             target="_blank"
             rel="noopener noreferrer"
             className="p-5 rounded-2xl bg-white border border-gray-200/90 shadow-2xs hover:shadow-md hover:border-emerald-200 transition-all cursor-pointer flex flex-col justify-between"

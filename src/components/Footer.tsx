@@ -2,6 +2,8 @@ import React from 'react';
 import { Logo } from './Logo';
 import { COPY } from '../data/copywriting';
 import { useRouter } from '../context/RouterContext';
+import { useCatalog } from '../context/CatalogContext';
+import { buildWaLink } from '../services/catalogService';
 
 interface FooterProps {
   onOpenOrderModal?: () => void;
@@ -12,6 +14,7 @@ interface FooterProps {
 
 export const Footer: React.FC<FooterProps> = ({ onSelectCategoryById }) => {
   const { navigate } = useRouter();
+  const { settings } = useCatalog();
 
   const getBadgeIcon = (index: number) => {
     switch (index) {
@@ -94,10 +97,13 @@ export const Footer: React.FC<FooterProps> = ({ onSelectCategoryById }) => {
               <ul className="space-y-2.5 text-xs text-gray-500">
                 {COPY.footer.navHelp.map((item) => {
                   if (item.externalUrl) {
+                    const href = item.externalUrl.startsWith('https://wa.me/')
+                      ? buildWaLink(settings)
+                      : item.externalUrl;
                     return (
                       <li key={item.label}>
                         <a
-                          href={item.externalUrl}
+                          href={href}
                           target="_blank"
                           rel="noopener noreferrer"
                           className="hover:text-emerald-600 transition-colors block py-0.5 flex items-center gap-1 text-emerald-700 font-medium"

@@ -1,8 +1,11 @@
 import React, { useEffect } from 'react';
 import { useRouter } from '../context/RouterContext';
+import { useCatalog } from '../context/CatalogContext';
+import { buildWaLink } from '../services/catalogService';
 
 export const PrivacyPage: React.FC = () => {
   const { navigate } = useRouter();
+  const { settings } = useCatalog();
 
   useEffect(() => {
     document.title = 'Kebijakan Privasi - Virello';
@@ -117,7 +120,10 @@ export const PrivacyPage: React.FC = () => {
               Jika Anda memiliki pertanyaan mengenai perlindungan data di Virello, hubungi tim kami melalui WhatsApp.
             </p>
             <a
-              href="https://wa.me/6281234567890?text=Halo%20CS%20Virello%2C%20saya%20ingin%20bertanya%20mengenai%20kebijakan%20privasi."
+              href={buildWaLink(
+                settings,
+                'Halo CS Virello, saya ingin bertanya mengenai kebijakan privasi.'
+              )}
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-sora font-bold text-xs shadow-xs transition-colors"

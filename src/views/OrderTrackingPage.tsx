@@ -1,10 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { Order } from '../types';
 import { useRouter } from '../context/RouterContext';
+import { useCatalog } from '../context/CatalogContext';
+import { buildWaLink } from '../services/catalogService';
 import { lookupOrderByInvoice } from '../services/orderService';
 
 export const OrderTrackingPage: React.FC = () => {
   const { navigate } = useRouter();
+  const { settings } = useCatalog();
 
   // Search input state
   const [invoiceInput, setInvoiceInput] = useState('');
@@ -291,9 +294,10 @@ export const OrderTrackingPage: React.FC = () => {
               </button>
 
               <a
-                href={`https://wa.me/6281234567890?text=${encodeURIComponent(
+                href={buildWaLink(
+                  settings,
                   `Halo CS Virello, saya ingin menanyakan bantuan terkait pesanan nomor invoice: ${searchedOrder.invoiceNumber}`
-                )}`}
+                )}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="w-full sm:w-1/2 inline-flex items-center justify-center gap-2 py-3 px-4 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-sora font-bold text-xs transition-colors shadow-xs"

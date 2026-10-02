@@ -11,6 +11,8 @@ import confetti from 'canvas-confetti';
 import { Product, PaymentMethodId, Order } from '../types';
 import { PAYMENT_METHODS } from '../data/mockData';
 import { COPY } from '../data/copywriting';
+import { useCatalog } from '../context/CatalogContext';
+import { cldImg } from '../lib/cloudinary';
 
 export interface CheckoutDraft {
   destination: string;
@@ -375,6 +377,7 @@ export const CheckoutPaymentPage: React.FC<{
   const [isProcessing, setIsProcessing] = useState(false);
   const [copied, setCopied] = useState(false);
   const flow = COPY.checkout.flow;
+  const { settings } = useCatalog();
 
   useEffect(() => {
     const timer = setInterval(() => setCountdown((c) => (c > 0 ? c - 1 : 0)), 1000);
@@ -487,7 +490,16 @@ export const CheckoutPaymentPage: React.FC<{
             <>
               <div className="mt-8 mx-auto w-64 md:w-72 p-4 rounded-[28px] border-2 border-slate-900 shadow-[6px_6px_0_#7c3aed] bg-white">
                 <div className="aspect-square rounded-2xl border border-slate-100 p-2">
-                  <QrisMatrix />
+                  {settings.qris_image_url ? (
+                    <img
+                      src={cldImg(settings.qris_image_url, { w: 360 })}
+                      loading="lazy"
+                      alt="QRIS Virello"
+                      className="w-full h-full object-contain"
+                    />
+                  ) : (
+                    <QrisMatrix />
+                  )}
                 </div>
                 <p className="mt-3 text-xs font-bold tracking-widest text-slate-400">
                   {flow.qrisCaption}

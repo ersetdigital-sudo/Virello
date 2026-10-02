@@ -15,8 +15,10 @@
 import React, { useMemo, useRef, useState } from 'react';
 import { Product } from '../types';
 import { COPY } from '../data/copywriting';
-import { CategoryMeta, SIDEBAR_CATEGORIES } from '../data/categories';
+import { CategoryMeta } from '../data/categories';
 import { useRouter } from '../context/RouterContext';
+import { useCatalog } from '../context/CatalogContext';
+import { cldImg } from '../lib/cloudinary';
 import { CheckoutDraft } from './CheckoutPages';
 
 const makeTrxRef = () => {
@@ -36,6 +38,8 @@ export const CategoryDetailPage: React.FC<{
   onCancel: () => void;
 }> = ({ category, products, draft, onDraftChange, onContinue, onCancel }) => {
   const { navigate } = useRouter();
+  const { categories } = useCatalog();
+  const sidebarCategories = categories.filter((cat) => cat.inSidebar !== false);
   const copy = COPY.categoryPage;
   const isNominal = category.variant === 'nominal';
 
@@ -104,7 +108,7 @@ export const CategoryDetailPage: React.FC<{
           <p className="px-4 pt-2 pb-3 text-xs font-bold uppercase tracking-widest text-slate-400">
             {copy.sidebarTitle}
           </p>
-          {SIDEBAR_CATEGORIES.map((cat) => {
+          {sidebarCategories.map((cat) => {
             const active = cat.id === category.id;
             return (
               <a
@@ -222,8 +226,25 @@ export const CategoryDetailPage: React.FC<{
                           : 'border-slate-200 hover:border-violet-400'
                       }`}
                     >
-                      <p className={nominalLabelClass}>{p.nominalLabel ?? p.title}</p>
-                      <p className="text-xs text-slate-500 mt-1">{p.nominalSub}</p>
+                      {p.image_url ? (
+                        <div className="flex items-center gap-3">
+                          <img
+                            src={cldImg(p.image_url, { w: 80 })}
+                            loading="lazy"
+                            alt=""
+                            className="w-11 h-11 rounded-xl object-cover shrink-0"
+                          />
+                          <div className="min-w-0">
+                            <p className={nominalLabelClass}>{p.nominalLabel ?? p.title}</p>
+                            <p className="text-xs text-slate-500 mt-1">{p.nominalSub}</p>
+                          </div>
+                        </div>
+                      ) : (
+                        <>
+                          <p className={nominalLabelClass}>{p.nominalLabel ?? p.title}</p>
+                          <p className="text-xs text-slate-500 mt-1">{p.nominalSub}</p>
+                        </>
+                      )}
                     </button>
                   );
                 })}

@@ -1,8 +1,11 @@
 import React, { useEffect } from 'react';
 import { useRouter } from '../context/RouterContext';
+import { useCatalog } from '../context/CatalogContext';
+import { buildWaLink } from '../services/catalogService';
 
 export const TermsPage: React.FC = () => {
   const { navigate } = useRouter();
+  const { settings } = useCatalog();
 
   useEffect(() => {
     document.title = 'Syarat & Ketentuan Layanan - Virello';
@@ -119,7 +122,10 @@ export const TermsPage: React.FC = () => {
               Virello melalui WhatsApp resmi.
             </p>
             <a
-              href="https://wa.me/6281234567890?text=Halo%20CS%20Virello%2C%20saya%20ingin%20bertanya%20mengenai%20syarat%20dan%20ketentuan%20layanan."
+              href={buildWaLink(
+                settings,
+                'Halo CS Virello, saya ingin bertanya mengenai syarat dan ketentuan layanan.'
+              )}
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-sora font-bold text-xs shadow-xs transition-colors"

@@ -1,7 +1,7 @@
 import React from 'react';
 import { CategoryId } from '../types';
 import { COPY } from '../data/copywriting';
-import { CATEGORY_META } from '../data/categories';
+import { useCatalog } from '../context/CatalogContext';
 
 interface CategoryGridProps {
   /** Membuka halaman kategori sendiri (mis. /pulsa), bukan scroll ke katalog. */
@@ -9,6 +9,7 @@ interface CategoryGridProps {
 }
 
 export const CategoryGrid: React.FC<CategoryGridProps> = ({ onOpenCategory }) => {
+  const { categories } = useCatalog();
   return (
     <section id="kategori-section" className="w-full py-10 lg:py-14 scroll-mt-24">
       <div className="max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-8">
@@ -29,7 +30,7 @@ export const CategoryGrid: React.FC<CategoryGridProps> = ({ onOpenCategory }) =>
         </div>
 
         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-5">
-          {CATEGORY_META.map((cat) => (
+          {categories.map((cat) => (
             <button
               key={cat.id}
               type="button"

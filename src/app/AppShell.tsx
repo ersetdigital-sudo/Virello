@@ -8,6 +8,7 @@
  */
 
 import React, { useState, useEffect } from 'react';
+import { usePathname } from 'next/navigation';
 import { Header } from '../components/Header';
 import { Footer } from '../components/Footer';
 import { HomePage } from '../components/HomePage';
@@ -20,11 +21,12 @@ import {
   EMPTY_DRAFT,
 } from '../views/CheckoutPages';
 import { CategoryDetailPage } from '../views/CategoryDetailPage';
-import { getCategoryByPath, getCategorySlug } from '../data/categories';
+import { CategoryMeta } from '../data/categories';
 import { WhatsAppModal } from '../components/WhatsAppModal';
 import { FaqModal } from '../components/FaqModal';
 
 import { useRouter } from '../context/RouterContext';
+import { CatalogProvider, useCatalog } from '../context/CatalogContext';
 import { TermsPage } from '../views/TermsPage';
 import { PrivacyPage } from '../views/PrivacyPage';
 import { PaymentTermsPage } from '../views/PaymentTermsPage';
@@ -34,11 +36,17 @@ import { QrisGuidePage } from '../views/QrisGuidePage';
 import { OrderTrackingPage } from '../views/OrderTrackingPage';
 
 import { CategoryId, Product, Order } from '../types';
-import { INITIAL_PRODUCTS } from '../data/mockData';
 import { saveOrderToStorage } from '../services/orderService';
+
+const getCategoryByPath = (categories: CategoryMeta[], path: string) =>
+  categories.find((cat) => cat.slug === path) ?? null;
+
+const getCategorySlug = (categories: CategoryMeta[], id: CategoryId) =>
+  id === 'all' ? '/' : (categories.find((cat) => cat.id === id)?.slug ?? '/');
 
 function MainApp() {
   const { currentPath, navigate } = useRouter();
+  const { products, categories } = useCatalog();
 
   // Modals (OrderTrackingModal removed in favor of /cek-pesanan page)
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
@@ -67,19 +75,19 @@ function MainApp() {
       navigate('/', { scrollSelector: '#kategori' });
       return;
     }
-    navigate(getCategorySlug(cat));
+    navigate(getCategorySlug(categories, cat));
   };
 
   // Route Renderer
   const renderPageContent = () => {
     // Halaman kategori (pages/pulsa, pages/paket-data, ... di desain HTML)
-    const categoryPage = getCategoryByPath(currentPath);
+    const categoryPage = getCategoryByPath(categories, currentPath);
     if (categoryPage) {
       return (
         <CategoryDetailPage
           key={categoryPage.slug}
           category={categoryPage}
-          products={INITIAL_PRODUCTS.filter((p) => p.category === categoryPage.id)}
+          products={products.filter((p) => p.category === categoryPage.id)}
           draft={checkoutDraft}
           onDraftChange={(patch) => setCheckoutDraft((prev) => ({ ...prev, ...patch }))}
           onContinue={(product, trxRef) => {
@@ -192,10 +200,16 @@ function MainApp() {
 }
 
 export default function AppShell({ children }: { children: React.ReactNode }) {
+  const pathname = usePathname();
+
+  if (pathname.startsWith('/admin')) {
+    return <>{children}</>;
+  }
+
   return (
-    <>
+    <CatalogProvider>
       <MainApp />
       {children}
-    </>
+    </CatalogProvider>
   );
 }

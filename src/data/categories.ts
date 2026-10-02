@@ -33,6 +33,8 @@ export interface CategoryMeta {
   nominalLayout?: 'grid4' | 'grid3';
   /** Tampil di sidebar kategori? (Multifinance tidak ada di desain.) */
   inSidebar?: boolean;
+  is_active?: boolean;
+  sort_order?: number;
 }
 
 export const CATEGORY_META: CategoryMeta[] = [

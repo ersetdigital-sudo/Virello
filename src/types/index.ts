@@ -34,6 +34,12 @@ export interface Product {
   popularScore: number;
   targetType: 'phone' | 'meter' | 'id_pelanggan' | 'bpjs_id' | 'pdam_id' | 'kontrak_id';
   targetPlaceholder: string;
+  /** URL gambar produk (Cloudinary secure_url). Opsional. */
+  image_url?: string | null;
+  /** Nonaktifkan produk tanpa menghapusnya. */
+  is_active?: boolean;
+  /** Urutan tampil; makin kecil makin atas. */
+  sort_order?: number;
 }
 
 export type PaymentMethodId = 'qris' | 'bca_va' | 'mandiri_va' | 'bri_va' | 'gopay' | 'dana' | 'shopeepay';

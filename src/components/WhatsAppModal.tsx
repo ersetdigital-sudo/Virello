@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import { COPY } from '../data/copywriting';
+import { useCatalog } from '../context/CatalogContext';
+import { buildWaLink } from '../services/catalogService';
 
 interface WhatsAppModalProps {
   onClose: () => void;
@@ -8,15 +10,16 @@ interface WhatsAppModalProps {
 export const WhatsAppModal: React.FC<WhatsAppModalProps> = ({ onClose }) => {
   const [selectedIssue, setSelectedIssue] = useState('sn_delay');
   const [invoiceInput, setInvoiceInput] = useState('');
+  const { settings } = useCatalog();
 
   const issues = COPY.whatsapp.issues;
 
   const handleOpenWhatsApp = () => {
     const cur = issues.find((i) => i.id === selectedIssue) || issues[0];
-    const text = encodeURIComponent(
-      `${cur.template} ${invoiceInput ? `[No. Invoice: ${invoiceInput}]` : ''}`
-    );
-    window.open(`https://wa.me/6281234567890?text=${text}`, '_blank');
+    const text = `${cur.template} ${
+      invoiceInput ? `[No. Invoice: ${invoiceInput}]` : ''
+    }`;
+    window.open(buildWaLink(settings, text), '_blank');
     onClose();
   };
 
