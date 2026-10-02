@@ -21,3 +21,4 @@ tsconfig.tsbuildinfo
 virello-redesign/
 reference/
 *.zip
+.vercel
