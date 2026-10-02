@@ -17,5 +17,7 @@ tsconfig.tsbuildinfo
 .omo/
 .commandcode/
 
-# Redundant archive of the design reference folder
+# Design reference material (not part of the app)
+virello-redesign/
+reference/
 *.zip
