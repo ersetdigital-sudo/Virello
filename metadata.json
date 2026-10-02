@@ -1,0 +1,6 @@
+{
+  "name": "Virello - Marketplace Produk Digital & PPOB Tercepat",
+  "description": "Marketplace produk digital all-operator, kuota internet, token PLN, e-wallet, dan tagihan bulanan instan tanpa perlu registrasi.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

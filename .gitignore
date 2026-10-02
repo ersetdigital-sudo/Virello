@@ -1,0 +1,21 @@
+node_modules/
+build/
+dist/
+coverage/
+.DS_Store
+*.log
+.env*
+!.env.example
+
+# Next.js & TypeScript build artifacts
+.next/
+out/
+tsconfig.tsbuildinfo
+
+# Local agent / tooling artifacts
+.codegraph/
+.omo/
+.commandcode/
+
+# Redundant archive of the design reference folder
+*.zip
